@@ -11,6 +11,8 @@ variables:
   value: '**/FunctionApp.csproj'
 - name: testProjects
   value: '**/FunctionApp.Tests.csproj'
+- name: dotnetSdkVersion
+  value: '2.1.x'
 - name: azureSubscription
   value: 'AzureSponsorships'
 - name: functionAppsType
@@ -27,6 +29,7 @@ stages:
       buildConfiguration: $(buildConfiguration)
       projects: $(projects)
       testProjects: $(testProjects)
+      dotnetSdkVersion: $(dotnetSdkVersion)
     
 - stage: Release
   dependsOn:
