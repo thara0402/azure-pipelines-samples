@@ -4,6 +4,9 @@
 ### Azure Web Apps
 - [Deployment Slot なし](./web-apps/azure-pipelines.yml)
 - [Deployment Slot あり](./web-apps/azure-pipelines-production.yml)
+### Azure Web Apps for Vue.js
+- [Deployment Slot なし](./web-apps-vue/azure-pipelines.yml)
+- [Deployment Slot あり](./web-apps-vue/azure-pipelines-production.yml)
 ### Azure Functions
 - [Deployment Slot なし](./function-apps/azure-pipelines.yml)
 - [Deployment Slot あり](./function-apps/azure-pipelines-production.yml)
