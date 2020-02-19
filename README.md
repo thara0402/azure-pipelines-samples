@@ -10,3 +10,5 @@
 ### Azure Functions
 - [Deployment Slot なし](./function-apps/azure-pipelines.yml)
 - [Deployment Slot あり](./function-apps/azure-pipelines-production.yml)
+### Azure Storage static website
+- [Deployment Slot なし](./storage-staticweb/azure-pipelines.yml)
