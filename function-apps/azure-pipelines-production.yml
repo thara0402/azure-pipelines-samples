@@ -8,9 +8,9 @@ variables:
 - name: buildConfiguration
   value: 'Release'
 - name: projects
-  value: '**/msp-test-fn.csproj'
+  value: '**/FunctionApp.csproj'
 - name: testProjects
-  value: '**/msp-test-fn.Tests.csproj'
+  value: '**/FunctionApp.Tests.csproj'
 - name: dotnetSdkVersion
   value: '2.1.x'
 - name: azureSubscription
@@ -46,3 +46,4 @@ stages:
       functionAppsType: $(functionAppsType)
       environment: $(environment)
       functionAppsSlotName: $(functionAppsSlotName)
+      keyVaultEndpoint: $(keyVaultEndpoint)
