@@ -8,13 +8,13 @@ variables:
 - name: buildConfiguration
   value: 'Release'
 - name: projects
-  value: '**/FunctionApp.csproj'
+  value: '**/msp-test-fn.csproj'
 - name: testProjects
-  value: '**/FunctionApp.Tests.csproj'
+  value: '**/msp-test-fn.Tests.csproj'
 - name: dotnetSdkVersion
-  value: '2.1.x'
+  value: '3.1.x'
 - name: azureSubscription
-  value: 'AzureSponsorships'
+  value: 'azure'
 - name: functionAppsType
   value: 'functionApp'
 - name: environment
@@ -33,7 +33,7 @@ stages:
       testProjects: $(testProjects)
       dotnetSdkVersion: $(dotnetSdkVersion)
     
-- stage: Release
+- stage: StagingRelease
   dependsOn:
   - Build
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/production'))
@@ -46,4 +46,17 @@ stages:
       functionAppsType: $(functionAppsType)
       environment: $(environment)
       functionAppsSlotName: $(functionAppsSlotName)
-      keyVaultEndpoint: $(keyVaultEndpoint)
+
+- stage: ProductionRelease
+  dependsOn:
+  - StagingRelease
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/production'))
+  jobs:
+  - template: pipelines/swap-pipelines.yml
+    parameters:
+      imageName: $(imageName)
+      azureSubscription: $(azureSubscription)
+      functionAppsName: $(functionAppsName)
+      environment: $(environment)
+      functionAppsSlotName: $(functionAppsSlotName)
+      resourceGroupName: $(resourceGroupName)

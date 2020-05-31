@@ -1,24 +1,26 @@
 trigger:
-- master
+- production
 
 variables:
-- group: variable-group-commit
+- group: variable-group-production
 - name: imageName
   value: 'windows-2019'
 - name: buildConfiguration
   value: 'Release'
 - name: projects
-  value: '**/msp-test-fn.csproj'
+  value: '**/WebApplication.csproj'
 - name: testProjects
-  value: '**/msp-test-fn.Tests.csproj'
+  value: '**/WebApplication.Tests.csproj'
 - name: dotnetSdkVersion
   value: '3.1.x'
 - name: azureSubscription
-  value: 'azure'
-- name: functionAppsType
-  value: 'functionApp'
+  value: 'AzureSponsorships'
+- name: webAppsType
+  value: 'webApp'
 - name: environment
-  value: 'Commit-Stage'
+  value: 'Production-Stage'
+- name: webAppsSlotName
+  value: 'staging'
 
 stages:
 - stage: Build
@@ -34,12 +36,13 @@ stages:
 - stage: Release
   dependsOn:
   - Build
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/production'))
   jobs:
   - template: pipelines/release-pipelines.yml
     parameters:
       imageName: $(imageName)
       azureSubscription: $(azureSubscription)
-      functionAppsName: $(functionAppsName)
-      functionAppsType: $(functionAppsType)
+      webAppsName: $(webAppsName)
+      webAppsType: $(webAppsType)
       environment: $(environment)
+      webAppsSlotName: $(webAppsSlotName)
