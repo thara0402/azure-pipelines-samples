@@ -1,0 +1,59 @@
+trigger:
+- main
+
+variables:
+- group: variable-group-commit
+- name: imageName
+  value: 'ubuntu-latest'
+- name: azureSubscription
+  value: 'AzureSponsorships'
+- name: dockerRegistryServiceConnection
+  value: 'ACR'
+- name: imageRepository
+  value: 'item-service'
+- name: dockerfilePath
+  value: '$(Build.SourcesDirectory)/item-service/Dockerfile'
+- name: tag
+  value: '$(Build.BuildId)'
+- name: containerRegistry
+  value: 'gooner.azurecr.io'
+- name: environment
+  value: 'Commit-Stage'
+- name: buildConfiguration
+  value: 'Release'
+- name: projects
+  value: '**/item-service.csproj'
+- name: testProjects
+  value: '**/item-service.Tests.csproj'
+- name: dotnetSdkVersion
+  value: '5.0.x'
+
+stages:
+- stage: Build
+  jobs:
+  - template: pipelines/build-pipelines.yml
+    parameters:
+      imageName: $(imageName)
+      dockerRegistryServiceConnection: $(dockerRegistryServiceConnection)
+      imageRepository: $(imageRepository)
+      dockerfilePath: $(dockerfilePath)
+      tag: $(tag)
+      buildConfiguration: $(buildConfiguration)
+      projects: $(projects)
+      testProjects: $(testProjects)
+      dotnetSdkVersion: $(dotnetSdkVersion)
+
+- stage: Release
+  dependsOn:
+  - Build
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+  - template: pipelines/release-pipelines.yml
+    parameters:
+      imageName: $(imageName)
+      azureSubscription: $(azureSubscription)
+      webAppsName: $(webAppsName)
+      containerRegistry: $(containerRegistry)
+      imageRepository: $(imageRepository)
+      tag: $(tag)
+      environment: $(environment)

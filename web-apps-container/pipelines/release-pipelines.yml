@@ -1,0 +1,28 @@
+  
+parameters:
+  imageName: ''
+  azureSubscription: ''
+  webAppsName: ''
+  containerRegistry: ''
+  imageRepository: ''
+  tag: ''
+  environment: ''
+  webAppsSlotName: 'production'
+
+jobs:
+- deployment: Deploy_Azure_WebApps
+  displayName: 'Release'
+  pool:
+    vmImage: ${{parameters.imageName}}
+  environment: ${{parameters.environment}}
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - task: AzureWebAppContainer@1
+          displayName: 'Deploy to Azure Web Apps for Container'
+          inputs:
+            azureSubscription: ${{parameters.azureSubscription}}
+            appName: ${{parameters.webAppsName}}
+            containers: ${{parameters.containerRegistry}}/${{parameters.imageRepository}}:${{parameters.tag}}
+            slotName: ${{parameters.webAppsSlotName}}
