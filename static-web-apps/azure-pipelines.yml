@@ -1,0 +1,32 @@
+trigger:
+  - master
+
+variables:
+- name: imageName
+  value: 'ubuntu-latest'
+- name: nodeVersion
+  value: '10.x'
+
+jobs:
+- job: Deploy
+  pool:
+    vmImage: $(imageName)
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: $(nodeVersion)
+    displayName: 'Install Node.js'
+  
+  - script: |
+      npm install
+      npm run build
+    displayName: 'npm install and build'
+  
+  - task: AzureStaticWebApp@0
+    inputs:
+      app_location: '/'
+      api_location: 'api'
+      output_location: 'dist'
+    env:
+      azure_static_web_apps_api_token: $(deployment_token)
+    displayName: 'Deploy to Azure Static Web Apps'
