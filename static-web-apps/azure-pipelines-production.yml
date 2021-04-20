@@ -1,8 +1,8 @@
 trigger:
-  - master
+  - production
 
 variables:
-- group: variable-group-commit
+- group: variable-group-production
 - name: imageName
   value: 'ubuntu-latest'
 - name: nodeVersion
