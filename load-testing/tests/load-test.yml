@@ -1,0 +1,11 @@
+version: v0.1
+testName: sample-app-test
+testPlan: test-plan.jmx
+description: 'Run Sample App Test'
+engineInstances: 1
+failureCriteria: 
+    - avg(response_time_ms) > 1000
+    - percentage(error) > 20
+env:
+  - name: webapp
+    value: gooner1213.azurewebsites.net

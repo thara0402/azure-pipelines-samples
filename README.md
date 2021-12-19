@@ -17,3 +17,5 @@
 - [Deployment Slot なし](./storage-staticweb/azure-pipelines.yml)
 ### Azure Static Web Apps
 - [Deployment Slot なし](./static-web-apps/azure-pipelines.yml)
+### Azure Load Testing
+- [Deployment Slot なし](./load-testing/azure-pipelines.yml)

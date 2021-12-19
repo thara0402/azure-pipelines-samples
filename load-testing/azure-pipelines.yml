@@ -1,0 +1,25 @@
+trigger:
+- main
+
+variables:
+- name: imageName
+  value: 'ubuntu-latest'
+- name: azureSubscription
+  value: 'azure'
+- name: loadTestConfigFile
+  value: 'tests/load-test.yml'
+- name: resourceGroup
+  value: 'gooner1213'
+- name: loadTestResource
+  value: 'gooner1213'
+
+stages:
+- stage: LoadTest
+  jobs:
+  - template: pipelines/load-test-pipelines.yml
+    parameters:
+      imageName: $(imageName)
+      azureSubscription: $(azureSubscription)
+      loadTestConfigFile: $(loadTestConfigFile)
+      resourceGroup: $(resourceGroup)
+      loadTestResource: $(loadTestResource)

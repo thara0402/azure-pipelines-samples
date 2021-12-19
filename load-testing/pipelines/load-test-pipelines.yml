@@ -1,0 +1,22 @@
+parameters:
+  imageName: ''
+  azureSubscription: ''
+  loadTestConfigFile: ''
+  resourceGroup: ''
+  loadTestResource: ''
+
+jobs:
+- job: LoadTest
+  displayName: 'Load Test'
+  pool:
+    vmImage: ${{parameters.imageName}}
+  steps:
+  - task: AzureLoadTest@1
+    displayName: 'Run Azure Load Testing'
+    inputs:
+      azureSubscription: ${{parameters.azureSubscription}}
+      loadTestConfigFile: ${{parameters.loadTestConfigFile}}
+      resourceGroup: ${{parameters.resourceGroup}}
+      loadTestResource: ${{parameters.loadTestResource}}
+  - publish: $(System.DefaultWorkingDirectory)/loadTest
+    artifact: results
